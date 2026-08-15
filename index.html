@@ -55,6 +55,101 @@
   }
 
   /* =========================================================
+     НАВИГАЦИОННАЯ ШАПКА
+  ========================================================= */
+  nav.header{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:100;
+    background:var(--card);
+    border-bottom:1px solid var(--line);
+    box-shadow:0 2px 8px rgba(28,26,21,.06);
+  }
+  .nav-container{
+    max-width:1200px;
+    margin:0 auto;
+    padding:0 24px;
+    display:flex;
+    align-items:center;
+    height:64px;
+    gap:40px;
+  }
+  .nav-logo{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:1.4rem;
+    letter-spacing:.02em;
+    text-decoration:none;
+    font-weight:400;
+    flex-shrink:0;
+    scroll-behavior:smooth;
+  }
+  .nav-menu{
+    display:flex;
+    gap:0;
+    margin:0;
+    padding:0;
+    list-style:none;
+    flex:1;
+  }
+  .nav-item{
+    position:relative;
+  }
+  .nav-link{
+    display:block;
+    padding:20px 16px;
+    text-decoration:none;
+    font-size:.95rem;
+    font-weight:500;
+    color:var(--ink);
+    transition:color .2s ease;
+    border-bottom:2px solid transparent;
+  }
+  .nav-link:hover{
+    color:var(--tag);
+  }
+  .nav-item.active > .nav-link{
+    border-bottom-color:var(--tag);
+    color:var(--tag);
+  }
+
+  /* Подменю */
+  .nav-submenu{
+    position:absolute;
+    top:100%;
+    left:0;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-top:none;
+    min-width:180px;
+    display:none;
+    flex-direction:column;
+    box-shadow:0 4px 12px rgba(28,26,21,.1);
+    z-index:101;
+  }
+  .nav-item:hover .nav-submenu,
+  .nav-item.active .nav-submenu{
+    display:flex;
+  }
+  .nav-submenu a{
+    display:block;
+    padding:14px 16px;
+    text-decoration:none;
+    font-size:.9rem;
+    color:var(--ink);
+    border-bottom:1px solid var(--line);
+    transition:background .2s ease, color .2s ease;
+  }
+  .nav-submenu a:last-child{
+    border-bottom:none;
+  }
+  .nav-submenu a:hover{
+    background:var(--paper);
+    color:var(--tag);
+  }
+
+  /* =========================================================
      ШАПКА — маленькая метка в углу, без полноценного меню
   ========================================================= */
   .corner-mark{
@@ -84,7 +179,8 @@
      ГЕРОЙ — картонная коробка, штамп с названием
   ========================================================= */
   .hero{
-    min-height:100svh;
+    margin-top:64px;
+    min-height:calc(100svh - 64px);
     background:
       radial-gradient(circle at 20% 15%, rgba(255,255,255,.10), transparent 45%),
       radial-gradient(circle at 85% 80%, rgba(0,0,0,.08), transparent 50%),
@@ -369,6 +465,16 @@
   }
 
   /* =========================================================
+     СЕКЦИИ С ФИЛЬТРОМ
+  ========================================================= */
+  .filtered-section{
+    display:none;
+  }
+  .filtered-section.active{
+    display:block;
+  }
+
+  /* =========================================================
      ФУТЕР
   ========================================================= */
   footer{
@@ -421,13 +527,39 @@
     .drop-info{border-left:none;border-top:2px dashed var(--line);}
     .grid{grid-template-columns:1fr 1fr;}
     section{padding:76px 18px;}
+    .nav-container{gap:20px;height:56px;}
+    .nav-link{padding:18px 12px;font-size:.9rem;}
+    .nav-submenu{min-width:150px;}
+    .nav-submenu a{padding:12px 14px;font-size:.85rem;}
   }
   @media (max-width:460px){
     .grid{grid-template-columns:1fr;}
+    .nav-container{gap:12px;padding:0 16px;}
+    .nav-logo{font-size:1.2rem;}
+    .nav-link{padding:18px 10px;font-size:.85rem;}
   }
 </style>
 </head>
 <body>
+
+<!-- Навигационная шапка -->
+<nav class="header">
+  <div class="nav-container">
+    <a class="nav-logo" href="#hero">BOSTON</a>
+    <ul class="nav-menu">
+      <li class="nav-item active">
+        <a class="nav-link" href="#models">Модели</a>
+        <div class="nav-submenu">
+          <a href="#danki">Данки</a>
+          <a href="#jordans">Джорданы</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#sale">Скидки</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 
 <!-- Маленькая закреплённая метка вверху справа -->
 <a class="corner-mark" href="https://www.instagram.com/boston.shp18/" target="_blank" rel="noopener">
@@ -436,7 +568,7 @@
 </a>
 
 <!-- ============ ЭКРАН 1 — ОБЛОЖКА КОРОБКИ ============ -->
-<header class="hero">
+<header class="hero" id="hero">
   <div class="stamp"><span>EST.<br>STREETWEAR</span></div>
   <h1 class="wordmark">BOSTON</h1>
   <p class="hero-sub">Лучшие кроссовки Семея</p>
@@ -446,8 +578,8 @@
   </div>
 </header>
 
-<!-- ============ ЭКРАН 2 — СЛУЧАЙНАЯ МОДЕЛЬ ============ -->
-<section id="drop">
+<!-- ============ РАЗДЕЛ МОДЕЛИ ============ -->
+<section id="models" class="filtered-section active">
   <div class="section-head reveal">
     <span class="eyebrow">Лучшие</span>
     <h2>Модель дня</h2>
@@ -472,15 +604,41 @@
       <button class="reroll" id="reroll">Показать другую модель</button>
     </div>
   </div>
+
+  <div class="collection">
+    <div class="section-head reveal">
+      <span class="eyebrow">Больше моделей</span>
+      <h2>Ещё в наличии</h2>
+    </div>
+    <div class="grid reveal" id="grid"></div>
+  </div>
 </section>
 
-<!-- ============ ЭКРАН 3 — ОСТАЛЬНАЯ ВИТРИНА ============ -->
-<section class="collection">
+<!-- ============ РАЗДЕЛ ДАНКИ ============ -->
+<section id="danki" class="filtered-section">
   <div class="section-head reveal">
-    <span class="eyebrow">Больше моделей</span>
-    <h2>Ещё в наличии</h2>
+    <span class="eyebrow">Коллекция</span>
+    <h2>Данки</h2>
   </div>
-  <div class="grid reveal" id="grid"></div>
+  <div class="grid reveal" id="gridDanki"></div>
+</section>
+
+<!-- ============ РАЗДЕЛ ДЖОРДАНЫ ============ -->
+<section id="jordans" class="filtered-section">
+  <div class="section-head reveal">
+    <span class="eyebrow">Коллекция</span>
+    <h2>Джорданы</h2>
+  </div>
+  <div class="grid reveal" id="gridJordans"></div>
+</section>
+
+<!-- ============ РАЗДЕЛ СКИДКИ ============ -->
+<section id="sale" class="collection filtered-section">
+  <div class="section-head reveal">
+    <span class="eyebrow">Специальное предложение</span>
+    <h2>Скидки</h2>
+  </div>
+  <div class="grid reveal" id="gridSale"></div>
 </section>
 
 <!-- ============ ФУТЕР ============ -->
@@ -490,7 +648,7 @@
   <div class="footer-links">
     <a href="https://www.instagram.com/boston.shp18/" target="_blank" rel="noopener">Instagram</a>
     <a href="https://wa.me/77000000000" target="_blank" rel="noopener">WhatsApp</a>
-    <a href="#drop">Наверх</a>
+    <a href="#hero">Наверх</a>
   </div>
   <div class="fine">© BOSTON</div>
 </footer>
@@ -502,6 +660,12 @@
    в этом массиве. "img" — ссылка на фото товара (лучше всего
    загрузить свои фото в папку /images рядом с этим файлом и
    указать путь вида "images/model-1.jpg").
+   
+   НОВОЕ: добавьте поле "category" со значениями:
+   - "danki" для Данков
+   - "jordan" для Джорданов
+   - "sale" для Скидок
+   
    Из всех моделей ниже при каждом заходе на сайт СЛУЧАЙНО
    выбирается ОДНА и показывается как "Модель дня".
 ============================================================= */
@@ -513,7 +677,8 @@ const PRODUCTS = [
     color: "White",
     sizes: "40–45",
     stock: "в наличии",
-    img: "https://images.unsplash.com/photo-1512374382149-233c42b6a83b?w=600&q=80"
+    img: "https://images.unsplash.com/photo-1512374382149-233c42b6a83b?w=600&q=80",
+    category: "regular"
   },
   {
     name: "Adidas Samba OG",
@@ -522,7 +687,8 @@ const PRODUCTS = [
     color: "Black / White",
     sizes: "39–44",
     stock: "в наличии",
-    img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80"
+    img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80",
+    category: "danki"
   },
   {
     name: "New Balance 530",
@@ -531,7 +697,8 @@ const PRODUCTS = [
     color: "Grey / Silver",
     sizes: "38–44",
     stock: "под заказ",
-    img: "https://images.unsplash.com/photo-1539185441755-769473a23570?w=600&q=80"
+    img: "https://images.unsplash.com/photo-1539185441755-769473a23570?w=600&q=80",
+    category: "sale"
   },
   {
     name: "Jordan 1 Low",
@@ -540,7 +707,8 @@ const PRODUCTS = [
     color: "Chicago",
     sizes: "40–45",
     stock: "3 пар",
-    img: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&q=80"
+    img: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&q=80",
+    category: "jordan"
   },
   {
     name: "Puma Suede Classic",
@@ -549,7 +717,28 @@ const PRODUCTS = [
     color: "Red / Black",
     sizes: "39–43",
     stock: "2 пары",
-    img: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&q=80"
+    img: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&q=80",
+    category: "sale"
+  },
+  {
+    name: "Nike Dunk High",
+    code: "BST-063",
+    price: "35 500 ₸",
+    color: "Royal Blue",
+    sizes: "38–45",
+    stock: "5 пар",
+    img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80",
+    category: "danki"
+  },
+  {
+    name: "Jordan 3 Retro",
+    code: "BST-074",
+    price: "42 000 ₸",
+    color: "Black Cement",
+    sizes: "40–46",
+    stock: "2 пары",
+    img: "https://images.unsplash.com/photo-1556821552-7d2c0bb8c7e9?w=600&q=80",
+    category: "jordan"
   }
 ];
 
@@ -579,11 +768,14 @@ function renderDrop(index){
   document.getElementById('dropCta').href = CONTACT_URL;
 }
 
-function renderGrid(){
-  const gridEl = document.getElementById('grid');
+function renderGrid(containerId, filterCategory = null){
+  const gridEl = document.getElementById(containerId);
   gridEl.innerHTML = '';
   PRODUCTS.forEach((p, i) => {
-    if (i === current) return; // не дублируем "модель дня"
+    // для основной сетки исключаем "модель дня", для других — применяем фильтр
+    if (containerId === 'grid' && i === current) return;
+    if (filterCategory && p.category !== filterCategory) return;
+    
     const el = document.createElement('div');
     el.className = 'item';
     el.innerHTML = `
@@ -597,7 +789,10 @@ function renderGrid(){
 
 // первичный случайный выбор при загрузке страницы
 renderDrop(pickRandom());
-renderGrid();
+renderGrid('grid');
+renderGrid('gridDanki', 'danki');
+renderGrid('gridJordans', 'jordan');
+renderGrid('gridSale', 'sale');
 
 // кнопка "показать другую модель"
 document.getElementById('reroll').addEventListener('click', () => {
@@ -608,7 +803,7 @@ document.getElementById('reroll').addEventListener('click', () => {
 
   card.addEventListener('animationend', () => {
     renderDrop(pickRandom(current));
-    renderGrid();
+    renderGrid('grid');
 
     card.classList.remove('swipe-out');
     card.classList.add('swipe-in');
@@ -618,6 +813,36 @@ document.getElementById('reroll').addEventListener('click', () => {
     }, { once: true });
 
   }, { once: true });
+});
+
+// логика отображения секций при клике по якорям
+document.querySelectorAll('.nav-link, .nav-submenu a').forEach(link => {
+  link.addEventListener('click', (e) => {
+    const href = link.getAttribute('href');
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const targetId = href.slice(1);
+      
+      // скрываем все секции, показываем нужную
+      document.querySelectorAll('.filtered-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      const targetSection = document.getElementById(targetId);
+      if (targetSection) {
+        targetSection.classList.add('active');
+        // скролл к секции
+        setTimeout(() => {
+          targetSection.scrollIntoView({ behavior: 'smooth' });
+        }, 50);
+      }
+
+      // обновляем активный пункт меню
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      link.closest('.nav-item').classList.add('active');
+    }
+  });
 });
 
 // появление секций при скролле
