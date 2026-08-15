@@ -109,10 +109,6 @@
   .nav-link:hover{
     color:var(--tag);
   }
-  .nav-item.active > .nav-link{
-    border-bottom-color:var(--tag);
-    color:var(--tag);
-  }
 
   /* Подменю */
   .nav-submenu{
@@ -128,8 +124,7 @@
     box-shadow:0 4px 12px rgba(28,26,21,.1);
     z-index:101;
   }
-  .nav-item:hover .nav-submenu,
-  .nav-item.active .nav-submenu{
+  .nav-item:hover .nav-submenu{
     display:flex;
   }
   .nav-submenu a{
@@ -465,16 +460,6 @@
   }
 
   /* =========================================================
-     СЕКЦИИ С ФИЛЬТРОМ
-  ========================================================= */
-  .filtered-section{
-    display:none;
-  }
-  .filtered-section.active{
-    display:block;
-  }
-
-  /* =========================================================
      ФУТЕР
   ========================================================= */
   footer{
@@ -545,17 +530,17 @@
 <!-- Навигационная шапка -->
 <nav class="header">
   <div class="nav-container">
-    <a class="nav-logo" href="#hero">BOSTON</a>
+    <a class="nav-logo" href="index.html">BOSTON</a>
     <ul class="nav-menu">
-      <li class="nav-item active">
-        <a class="nav-link" href="#models">Модели</a>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Модели</a>
         <div class="nav-submenu">
-          <a href="#danki">Данки</a>
-          <a href="#jordans">Джорданы</a>
+          <a href="danki.html">Данки</a>
+          <a href="jordans.html">Джорданы</a>
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#sale">Скидки</a>
+        <a class="nav-link" href="sale.html">Скидки</a>
       </li>
     </ul>
   </div>
@@ -578,8 +563,8 @@
   </div>
 </header>
 
-<!-- ============ РАЗДЕЛ МОДЕЛИ ============ -->
-<section id="models" class="filtered-section active">
+<!-- ============ СЕКЦИЯ — СЛУЧАЙНАЯ МОДЕЛЬ ============ -->
+<section id="drop">
   <div class="section-head reveal">
     <span class="eyebrow">Лучшие</span>
     <h2>Модель дня</h2>
@@ -604,41 +589,15 @@
       <button class="reroll" id="reroll">Показать другую модель</button>
     </div>
   </div>
-
-  <div class="collection">
-    <div class="section-head reveal">
-      <span class="eyebrow">Больше моделей</span>
-      <h2>Ещё в наличии</h2>
-    </div>
-    <div class="grid reveal" id="grid"></div>
-  </div>
 </section>
 
-<!-- ============ РАЗДЕЛ ДАНКИ ============ -->
-<section id="danki" class="filtered-section">
+<!-- ============ СЕКЦИЯ — ОСТАЛЬНАЯ ВИТРИНА ============ -->
+<section class="collection">
   <div class="section-head reveal">
-    <span class="eyebrow">Коллекция</span>
-    <h2>Данки</h2>
+    <span class="eyebrow">Больше моделей</span>
+    <h2>Ещё в наличии</h2>
   </div>
-  <div class="grid reveal" id="gridDanki"></div>
-</section>
-
-<!-- ============ РАЗДЕЛ ДЖОРДАНЫ ============ -->
-<section id="jordans" class="filtered-section">
-  <div class="section-head reveal">
-    <span class="eyebrow">Коллекция</span>
-    <h2>Джорданы</h2>
-  </div>
-  <div class="grid reveal" id="gridJordans"></div>
-</section>
-
-<!-- ============ РАЗДЕЛ СКИДКИ ============ -->
-<section id="sale" class="collection filtered-section">
-  <div class="section-head reveal">
-    <span class="eyebrow">Специальное предложение</span>
-    <h2>Скидки</h2>
-  </div>
-  <div class="grid reveal" id="gridSale"></div>
+  <div class="grid reveal" id="grid"></div>
 </section>
 
 <!-- ============ ФУТЕР ============ -->
@@ -661,11 +620,6 @@
    загрузить свои фото в папку /images рядом с этим файлом и
    указать путь вида "images/model-1.jpg").
    
-   НОВОЕ: добавьте поле "category" со значениями:
-   - "danki" для Данков
-   - "jordan" для Джорданов
-   - "sale" для Скидок
-   
    Из всех моделей ниже при каждом заходе на сайт СЛУЧАЙНО
    выбирается ОДНА и показывается как "Модель дня".
 ============================================================= */
@@ -677,8 +631,7 @@ const PRODUCTS = [
     color: "White",
     sizes: "40–45",
     stock: "в наличии",
-    img: "https://images.unsplash.com/photo-1512374382149-233c42b6a83b?w=600&q=80",
-    category: "regular"
+    img: "https://images.unsplash.com/photo-1512374382149-233c42b6a83b?w=600&q=80"
   },
   {
     name: "Adidas Samba OG",
@@ -687,8 +640,7 @@ const PRODUCTS = [
     color: "Black / White",
     sizes: "39–44",
     stock: "в наличии",
-    img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80",
-    category: "danki"
+    img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80"
   },
   {
     name: "New Balance 530",
@@ -697,8 +649,7 @@ const PRODUCTS = [
     color: "Grey / Silver",
     sizes: "38–44",
     stock: "под заказ",
-    img: "https://images.unsplash.com/photo-1539185441755-769473a23570?w=600&q=80",
-    category: "sale"
+    img: "https://images.unsplash.com/photo-1539185441755-769473a23570?w=600&q=80"
   },
   {
     name: "Jordan 1 Low",
@@ -707,8 +658,7 @@ const PRODUCTS = [
     color: "Chicago",
     sizes: "40–45",
     stock: "3 пар",
-    img: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&q=80",
-    category: "jordan"
+    img: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&q=80"
   },
   {
     name: "Puma Suede Classic",
@@ -717,28 +667,7 @@ const PRODUCTS = [
     color: "Red / Black",
     sizes: "39–43",
     stock: "2 пары",
-    img: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&q=80",
-    category: "sale"
-  },
-  {
-    name: "Nike Dunk High",
-    code: "BST-063",
-    price: "35 500 ₸",
-    color: "Royal Blue",
-    sizes: "38–45",
-    stock: "5 пар",
-    img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80",
-    category: "danki"
-  },
-  {
-    name: "Jordan 3 Retro",
-    code: "BST-074",
-    price: "42 000 ₸",
-    color: "Black Cement",
-    sizes: "40–46",
-    stock: "2 пары",
-    img: "https://images.unsplash.com/photo-1556821552-7d2c0bb8c7e9?w=600&q=80",
-    category: "jordan"
+    img: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&q=80"
   }
 ];
 
@@ -768,14 +697,11 @@ function renderDrop(index){
   document.getElementById('dropCta').href = CONTACT_URL;
 }
 
-function renderGrid(containerId, filterCategory = null){
-  const gridEl = document.getElementById(containerId);
+function renderGrid(){
+  const gridEl = document.getElementById('grid');
   gridEl.innerHTML = '';
   PRODUCTS.forEach((p, i) => {
-    // для основной сетки исключаем "модель дня", для других — применяем фильтр
-    if (containerId === 'grid' && i === current) return;
-    if (filterCategory && p.category !== filterCategory) return;
-    
+    if (i === current) return; // не дублируем "модель дня"
     const el = document.createElement('div');
     el.className = 'item';
     el.innerHTML = `
@@ -789,10 +715,7 @@ function renderGrid(containerId, filterCategory = null){
 
 // первичный случайный выбор при загрузке страницы
 renderDrop(pickRandom());
-renderGrid('grid');
-renderGrid('gridDanki', 'danki');
-renderGrid('gridJordans', 'jordan');
-renderGrid('gridSale', 'sale');
+renderGrid();
 
 // кнопка "показать другую модель"
 document.getElementById('reroll').addEventListener('click', () => {
@@ -803,7 +726,7 @@ document.getElementById('reroll').addEventListener('click', () => {
 
   card.addEventListener('animationend', () => {
     renderDrop(pickRandom(current));
-    renderGrid('grid');
+    renderGrid();
 
     card.classList.remove('swipe-out');
     card.classList.add('swipe-in');
@@ -813,36 +736,6 @@ document.getElementById('reroll').addEventListener('click', () => {
     }, { once: true });
 
   }, { once: true });
-});
-
-// логика отображения секций при клике по якорям
-document.querySelectorAll('.nav-link, .nav-submenu a').forEach(link => {
-  link.addEventListener('click', (e) => {
-    const href = link.getAttribute('href');
-    if (href.startsWith('#')) {
-      e.preventDefault();
-      const targetId = href.slice(1);
-      
-      // скрываем все секции, показываем нужную
-      document.querySelectorAll('.filtered-section').forEach(section => {
-        section.classList.remove('active');
-      });
-      const targetSection = document.getElementById(targetId);
-      if (targetSection) {
-        targetSection.classList.add('active');
-        // скролл к секции
-        setTimeout(() => {
-          targetSection.scrollIntoView({ behavior: 'smooth' });
-        }, 50);
-      }
-
-      // обновляем активный пункт меню
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-      });
-      link.closest('.nav-item').classList.add('active');
-    }
-  });
 });
 
 // появление секций при скролле
